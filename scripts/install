@@ -64,12 +64,14 @@ sudo docker run \
         --env=REMOTE_DRIVER=$remote_driver \
         --env=REMOTE_CONFIG=$remote_config \
         --env=DRONE_TLS_AUTOCERT=true \
-        --env=DRONE_GITEA_SERVER=$remote_config \
-        --env=DRONE_SERVER_HOST=$domain \
+        --env=DRONE_GITEA=true \
+        --env=DRONE_GITEA_URL=$remote_config \
+        --env=DRONE_SERVER_HOST=${DRONE_HOST} \
         --env=DRONE_SERVER_PROTO=https \
         --env=DRONE_RUNNER_CAPACITY=2 \
         --env=DRONE_PRIVATE_MODE=false \
         --env=DRONE_LOGS_DEBUG=true \
+        --env=DRONE_SECRET=${DRONE_SECRET} \
         --restart=always \
         --publish=8112:8000 \
         --detach=true \
