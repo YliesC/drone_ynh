@@ -27,12 +27,12 @@ sudo yunohost app checkport 8112 || ynh_die "Port 8112 already used, aborting."
 
 # Install the Drone configuration file
 sudo mkdir -p "$DATADIR"/data
-cat << EOF | sudo tee -a "$DATADIR"/dronerc
-REMOTE_DRIVER=$remote_driver
-REMOTE_CONFIG=$remote_config
-DATABASE_DRIVER=sqlite3
-DATABASE_CONFIG=/var/lib/drone/drone.sqlite
-EOF
+# cat << EOF | sudo tee -a "$DATADIR"/dronerc
+# REMOTE_DRIVER=$remote_driver
+# REMOTE_CONFIG=$remote_config
+# DATABASE_DRIVER=sqlite3
+# DATABASE_CONFIG=/var/lib/drone/drone.sqlite
+# EOF
 
 # Install and setup Docker
 if [ ! -f /usr/bin/docker ]; then
@@ -59,7 +59,15 @@ sudo docker pull $DRONE_IMAGE
 sudo docker run \
         --volume $DATADIR/data:/var/lib/drone \
         --volume /var/run/docker.sock:/var/run/docker.sock \
-        --env-file $DATADIR/dronerc \
+        --env=DATABASE_DRIVER=sqlite3
+        --env=DATABASE_CONFIG=/var/lib/drone/drone.sqlite
+        --env=DRONE_TLS_AUTOCERT=true \
+        --env=DRONE_GITEA_SERVER=$remote_config \
+        --env=DRONE_SERVER_HOST=$domain \
+        --env=DRONE_SERVER_PROTO=https \
+        --env=DRONE_RUNNER_CAPACITY=2 \
+        --env=DRONE_PRIVATE_MODE=false \
+        --env=DRONE_LOGS_DEBUG=true \
         --restart=always \
         --publish=8112:8000 \
         --detach=true \
