@@ -61,6 +61,8 @@ sudo docker run \
         --volume /var/run/docker.sock:/var/run/docker.sock \
         --env=DATABASE_DRIVER=sqlite3 \
         --env=DATABASE_CONFIG=/var/lib/drone/drone.sqlite \
+        --env=REMOTE_DRIVER=$remote_driver \
+        --env=REMOTE_CONFIG=$remote_config \
         --env=DRONE_TLS_AUTOCERT=true \
         --env=DRONE_GITEA_SERVER=$remote_config \
         --env=DRONE_SERVER_HOST=$domain \
