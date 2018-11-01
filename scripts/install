@@ -59,8 +59,8 @@ sudo docker pull $DRONE_IMAGE
 sudo docker run \
         --volume $DATADIR/data:/var/lib/drone \
         --volume /var/run/docker.sock:/var/run/docker.sock \
-        --env=DATABASE_DRIVER=sqlite3
-        --env=DATABASE_CONFIG=/var/lib/drone/drone.sqlite
+        --env=DATABASE_DRIVER=sqlite3 \
+        --env=DATABASE_CONFIG=/var/lib/drone/drone.sqlite \
         --env=DRONE_TLS_AUTOCERT=true \
         --env=DRONE_GITEA_SERVER=$remote_config \
         --env=DRONE_SERVER_HOST=$domain \
